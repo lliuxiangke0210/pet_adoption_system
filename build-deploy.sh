@@ -12,6 +12,7 @@ DEPLOY_DIR="$PROJECT_DIR/deploy"
 echo ""
 echo "[1/4] 清理旧产物..."
 rm -rf "$PROJECT_DIR/client/dist"
+rm -rf "$PROJECT_DIR/client/node_modules"
 rm -rf "$PROJECT_DIR/server/target"
 rm -rf "$DEPLOY_DIR"
 
@@ -36,6 +37,7 @@ echo "[4/4] 整理部署目录..."
 
 mkdir -p "$DEPLOY_DIR/app"
 mkdir -p "$DEPLOY_DIR/etc/nginx/conf.d"
+mkdir -p "$DEPLOY_DIR/etc/nginx/sites-enabled"
 
 # 拷贝前端 dist
 cp -r "$PROJECT_DIR/client/dist" "$DEPLOY_DIR/app/dist"
@@ -45,9 +47,11 @@ echo "  ✓ app/dist"
 cp "$PROJECT_DIR/server/target/server-0.0.1-SNAPSHOT.jar" "$DEPLOY_DIR/app/server.jar"
 echo "  ✓ app/server.jar"
 
-# 拷贝 nginx 配置
+# 拷贝 nginx 配置（同时放到 conf.d 和 sites-enabled，兼容不同发行版）
 cp "$PROJECT_DIR/nginx.conf" "$DEPLOY_DIR/etc/nginx/conf.d/default.conf"
+cp "$PROJECT_DIR/nginx.conf" "$DEPLOY_DIR/etc/nginx/sites-enabled/default"
 echo "  ✓ etc/nginx/conf.d/default.conf"
+echo "  ✓ etc/nginx/sites-enabled/default"
 
 # 拷贝启动脚本
 cp "$PROJECT_DIR/entrypoint.sh" "$DEPLOY_DIR/entrypoint.sh"

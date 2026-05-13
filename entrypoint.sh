@@ -19,4 +19,6 @@ for i in $(seq 1 30); do
 done
 
 echo "=== Starting Nginx ==="
-nginx -g "daemon off;"
+rm -f /etc/nginx/sites-enabled/default
+cp /etc/nginx/conf.d/default.conf /etc/nginx/sites-enabled/default
+/usr/sbin/nginx -g "daemon off;"
