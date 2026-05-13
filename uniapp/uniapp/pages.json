@@ -1,0 +1,36 @@
+{
+	"pages": [
+		{ "path": "pages/index/index", "style": { "navigationBarTitleText": "宠物领养", "navigationStyle": "custom" } },
+		{ "path": "pages/login/login", "style": { "navigationBarTitleText": "登录" } },
+		{ "path": "pages/register/register", "style": { "navigationBarTitleText": "注册" } },
+		{ "path": "pages/pet/list", "style": { "navigationBarTitleText": "宠物列表" } },
+		{ "path": "pages/pet/detail", "style": { "navigationBarTitleText": "宠物详情" } },
+		{ "path": "pages/adoption/apply", "style": { "navigationBarTitleText": "申请领养" } },
+		{ "path": "pages/adoption/list", "style": { "navigationBarTitleText": "我的领养", "enablePullDownRefresh": true } },
+		{ "path": "pages/adoption/detail", "style": { "navigationBarTitleText": "领养详情" } },
+		{ "path": "pages/news/list", "style": { "navigationBarTitleText": "宠物资讯" } },
+		{ "path": "pages/news/detail", "style": { "navigationBarTitleText": "资讯详情" } },
+		{ "path": "pages/feedback/add", "style": { "navigationBarTitleText": "意见反馈" } },
+		{ "path": "pages/feedback/list", "style": { "navigationBarTitleText": "我的反馈" } },
+		{ "path": "pages/mine/index", "style": { "navigationBarTitleText": "我的", "navigationStyle": "custom" } }
+	],
+	"globalStyle": {
+		"navigationBarTextStyle": "white",
+		"navigationBarTitleText": "宠物领养",
+		"navigationBarBackgroundColor": "#FF8C42",
+		"backgroundColor": "#F5F7FA"
+	},
+	"tabBar": {
+		"color": "#909399",
+		"selectedColor": "#FF8C42",
+		"borderStyle": "white",
+		"backgroundColor": "#FFFFFF",
+		"list": [
+			{ "pagePath": "pages/index/index", "text": "首页" },
+			{ "pagePath": "pages/pet/list", "text": "宠物" },
+			{ "pagePath": "pages/news/list", "text": "资讯" },
+			{ "pagePath": "pages/mine/index", "text": "我的" }
+		]
+	},
+	"uniIdRouter": {}
+}

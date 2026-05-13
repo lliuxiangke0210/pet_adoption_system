@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dog.mapper.NewsMapper">
+
+    <select id="selectById" resultType="com.dog.entity.News">
+        SELECT * FROM news WHERE id = #{id}
+    </select>
+
+    <select id="selectList" resultType="com.dog.entity.News">
+        SELECT * FROM news
+        <where>
+            <if test="keyword != null and keyword != ''">
+                AND (title LIKE CONCAT('%', #{keyword}, '%') OR author LIKE CONCAT('%', #{keyword}, '%'))
+            </if>
+        </where>
+        ORDER BY create_time DESC
+        LIMIT #{offset}, #{limit}
+    </select>
+
+    <select id="countList" resultType="long">
+        SELECT COUNT(*) FROM news
+        <where>
+            <if test="keyword != null and keyword != ''">
+                AND (title LIKE CONCAT('%', #{keyword}, '%') OR author LIKE CONCAT('%', #{keyword}, '%'))
+            </if>
+        </where>
+    </select>
+
+    <insert id="insert" parameterType="com.dog.entity.News" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO news (title, content, cover_image, author, view_count)
+        VALUES (#{title}, #{content}, #{coverImage}, #{author}, #{viewCount})
+    </insert>
+
+    <update id="update" parameterType="com.dog.entity.News">
+        UPDATE news
+        <set>
+            <if test="title != null">title = #{title},</if>
+            <if test="content != null">content = #{content},</if>
+            <if test="coverImage != null">cover_image = #{coverImage},</if>
+            <if test="author != null">author = #{author},</if>
+        </set>
+        WHERE id = #{id}
+    </update>
+
+    <delete id="deleteById">
+        DELETE FROM news WHERE id = #{id}
+    </delete>
+
+    <update id="incrementViewCount">
+        UPDATE news SET view_count = view_count + 1 WHERE id = #{id}
+    </update>
+
+</mapper>

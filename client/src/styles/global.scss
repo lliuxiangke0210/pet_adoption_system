@@ -1,0 +1,268 @@
+@use './variables.scss' as *;
+
+// ===== Element Plus 主题覆盖 =====
+:root {
+  --el-color-primary: #{$primary-color};
+  --el-color-primary-light-3: #{$primary-light};
+  --el-color-primary-dark-2: #{$primary-dark};
+  --el-border-radius-base: #{$border-radius};
+  --el-border-radius-round: #{$border-radius-lg};
+  --el-bg-color: #{$bg-color};
+  --el-fill-color-blank: #{$bg-white};
+}
+
+// ===== 全局样式 =====
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background-color: $bg-color;
+  color: $text-regular;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+// 滚动条美化
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: #c0c4cc;
+  border-radius: 3px;
+  &:hover {
+    background: #909399;
+  }
+}
+
+// ===== Element Plus 组件覆盖 =====
+
+// 卡片样式
+.el-card {
+  border-radius: $border-radius-lg !important;
+  box-shadow: $shadow-light !important;
+  border: 1px solid $border-color !important;
+  transition: all $transition-normal;
+
+  &:hover {
+    box-shadow: $shadow-card !important;
+  }
+}
+
+// 按钮样式
+.el-button--primary {
+  background: linear-gradient(135deg, $primary-color, $primary-dark) !important;
+  border: none !important;
+  transition: all $transition-normal;
+
+  &:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba($primary-color, 0.4);
+  }
+
+  &:active {
+    transform: translateY(0);
+  }
+}
+
+// 表格样式
+.el-table {
+  border-radius: $border-radius-lg;
+  overflow: hidden;
+
+  th.el-table__cell {
+    background-color: #FAFAFA;
+    color: $text-primary;
+    font-weight: 600;
+  }
+}
+
+// 菜单样式
+.el-menu {
+  border-right: none !important;
+}
+
+// 分页样式
+.el-pagination {
+  justify-content: center;
+  margin-top: $spacing-lg;
+}
+
+// 对话框样式
+.el-dialog {
+  border-radius: $border-radius-lg !important;
+
+  .el-dialog__header {
+    border-bottom: 1px solid $border-color;
+    padding: $spacing-md $spacing-lg;
+    margin-right: 0;
+  }
+
+  .el-dialog__body {
+    padding: $spacing-lg;
+  }
+}
+
+// 标签页样式
+.el-tabs__nav-wrap::after {
+  height: 1px;
+}
+
+// 面包屑
+.el-breadcrumb {
+  line-height: 1.5;
+}
+
+// 输入框
+.el-input__wrapper {
+  border-radius: $border-radius !important;
+}
+
+// 消息提示
+.el-message {
+  border-radius: $border-radius-lg !important;
+}
+
+// ===== 动画 =====
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.3s ease;
+}
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
+}
+
+// ===== 页面通用样式 =====
+.page-container {
+  padding: $spacing-md;
+}
+
+.page-header {
+  margin-bottom: $spacing-md;
+
+  h2 {
+    color: $text-primary;
+    font-size: 20px;
+    font-weight: 600;
+    margin: 0;
+  }
+}
+
+.search-bar {
+  display: flex;
+  gap: $spacing-md;
+  margin-bottom: $spacing-lg;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+// 图片加载失败占位
+.el-image__error {
+  display: flex !important;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #FFF5EC, #FFE4D0);
+  color: #FF8C42;
+  font-size: 22px;
+  border-radius: 8px;
+}
+
+// 表格操作列 - 确保按钮横向排列
+.el-popconfirm {
+  display: inline-flex;
+  vertical-align: middle;
+  > .el-button {
+    margin: 0;
+  }
+}
+
+// 表格操作按钮
+.action-btn {
+  padding: 4px 13px !important;
+  border-radius: 6px !important;
+  font-size: 12px !important;
+  font-weight: 500;
+  transition: all 0.2s ease;
+  margin-left: 6px;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.06);
+
+  &:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 3px 8px rgba(0,0,0,0.13);
+  }
+  &:active {
+    transform: translateY(0);
+    box-shadow: 0 1px 2px rgba(0,0,0,0.06);
+  }
+  &.is-disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    &:hover { transform: none; box-shadow: 0 1px 2px rgba(0,0,0,0.06); }
+  }
+}
+
+.btn-edit {
+  color: #FF8C42 !important;
+  background: #FFF9F5 !important;
+  border: 1px solid #FFD4B8 !important;
+  &:hover {
+    background: #FF8C42 !important;
+    color: #fff !important;
+    border-color: #FF8C42 !important;
+  }
+}
+
+.btn-delete {
+  color: #F56C6C !important;
+  background: #FFF !important;
+  border: 1px solid #FBC4C4 !important;
+  &:hover {
+    background: #F56C6C !important;
+    color: #fff !important;
+    border-color: #F56C6C !important;
+  }
+}
+
+.btn-view {
+  color: #409EFF !important;
+  background: #ECF5FF !important;
+  border: 1px solid #B3D8FF !important;
+  &:hover {
+    background: #409EFF !important;
+    color: #fff !important;
+    border-color: #409EFF !important;
+  }
+}
+
+// 表格文字样式
+.cell-text {
+  font-weight: 500;
+  color: #303133;
+}
+.cell-time {
+  font-size: 12px;
+  color: #909399;
+}
+.cell-muted {
+  color: #C0C4CC;
+  font-style: italic;
+}
+
+// 数据为空样式
+.empty-tip {
+  text-align: center;
+  padding: 60px 0;
+  color: $text-secondary;
+
+  .el-icon {
+    font-size: 48px;
+    margin-bottom: $spacing-md;
+  }
+}

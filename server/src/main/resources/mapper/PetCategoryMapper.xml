@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dog.mapper.PetCategoryMapper">
+
+    <select id="selectById" resultType="com.dog.entity.PetCategory">
+        SELECT * FROM pet_category WHERE id = #{id}
+    </select>
+
+    <select id="selectAll" resultType="com.dog.entity.PetCategory">
+        SELECT * FROM pet_category ORDER BY create_time
+    </select>
+
+    <insert id="insert" parameterType="com.dog.entity.PetCategory" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO pet_category (name, description) VALUES (#{name}, #{description})
+    </insert>
+
+    <update id="update" parameterType="com.dog.entity.PetCategory">
+        UPDATE pet_category
+        <set>
+            <if test="name != null">name = #{name},</if>
+            <if test="description != null">description = #{description},</if>
+        </set>
+        WHERE id = #{id}
+    </update>
+
+    <delete id="deleteById">
+        DELETE FROM pet_category WHERE id = #{id}
+    </delete>
+
+</mapper>

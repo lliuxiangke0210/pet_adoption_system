@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dog.mapper.UserMapper">
+
+    <resultMap id="userMap" type="com.dog.entity.User">
+        <id property="id" column="id"/>
+        <result property="realName" column="real_name"/>
+        <result property="createTime" column="create_time"/>
+    </resultMap>
+
+    <select id="selectByUsername" resultType="com.dog.entity.User">
+        SELECT * FROM `user` WHERE username = #{username}
+    </select>
+
+    <select id="selectById" resultType="com.dog.entity.User">
+        SELECT * FROM `user` WHERE id = #{id}
+    </select>
+
+    <select id="selectList" resultType="com.dog.entity.User">
+        SELECT * FROM `user`
+        <where>
+            <if test="keyword != null and keyword != ''">
+                AND (username LIKE CONCAT('%', #{keyword}, '%')
+                     OR real_name LIKE CONCAT('%', #{keyword}, '%')
+                     OR phone LIKE CONCAT('%', #{keyword}, '%'))
+            </if>
+        </where>
+        ORDER BY create_time DESC
+        LIMIT #{offset}, #{limit}
+    </select>
+
+    <select id="countList" resultType="long">
+        SELECT COUNT(*) FROM `user`
+        <where>
+            <if test="keyword != null and keyword != ''">
+                AND (username LIKE CONCAT('%', #{keyword}, '%')
+                     OR real_name LIKE CONCAT('%', #{keyword}, '%')
+                     OR phone LIKE CONCAT('%', #{keyword}, '%'))
+            </if>
+        </where>
+    </select>
+
+    <insert id="insert" parameterType="com.dog.entity.User" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO `user` (username, password, real_name, phone, email, avatar, role, status)
+        VALUES (#{username}, #{password}, #{realName}, #{phone}, #{email}, #{avatar}, #{role}, #{status})
+    </insert>
+
+    <update id="update" parameterType="com.dog.entity.User">
+        UPDATE `user`
+        <set>
+            <if test="realName != null">real_name = #{realName},</if>
+            <if test="phone != null">phone = #{phone},</if>
+            <if test="email != null">email = #{email},</if>
+            <if test="avatar != null">avatar = #{avatar},</if>
+            <if test="role != null">role = #{role},</if>
+            <if test="status != null">status = #{status},</if>
+            <if test="password != null">password = #{password},</if>
+        </set>
+        WHERE id = #{id}
+    </update>
+
+    <delete id="deleteById">
+        DELETE FROM `user` WHERE id = #{id}
+    </delete>
+
+    <select id="countByMonth" resultType="java.util.HashMap">
+        SELECT MONTH(create_time) AS month, COUNT(*) AS count
+        FROM `user` WHERE YEAR(create_time) = #{year}
+        GROUP BY MONTH(create_time) ORDER BY month
+    </select>
+
+    <select id="countTotal" resultType="long">
+        SELECT COUNT(*) FROM `user`
+    </select>
+
+</mapper>

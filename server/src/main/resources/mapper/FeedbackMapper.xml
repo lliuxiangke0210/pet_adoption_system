@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dog.mapper.FeedbackMapper">
+
+    <select id="selectById" resultType="com.dog.entity.Feedback">
+        SELECT f.*, u.username FROM feedback f
+        LEFT JOIN user u ON f.user_id = u.id
+        WHERE f.id = #{id}
+    </select>
+
+    <select id="selectAll" resultType="com.dog.entity.Feedback">
+        SELECT f.*, u.username FROM feedback f
+        LEFT JOIN user u ON f.user_id = u.id
+        ORDER BY f.create_time DESC
+        LIMIT #{offset}, #{limit}
+    </select>
+
+    <select id="countAll" resultType="long">
+        SELECT COUNT(*) FROM feedback
+    </select>
+
+    <select id="selectByUserId" resultType="com.dog.entity.Feedback">
+        SELECT f.*, u.username FROM feedback f
+        LEFT JOIN user u ON f.user_id = u.id
+        WHERE f.user_id = #{userId}
+        ORDER BY f.create_time DESC
+    </select>
+
+    <insert id="insert" parameterType="com.dog.entity.Feedback" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO feedback (user_id, content, status) VALUES (#{userId}, #{content}, #{status})
+    </insert>
+
+    <update id="update" parameterType="com.dog.entity.Feedback">
+        UPDATE feedback
+        <set>
+            <if test="reply != null">reply = #{reply},</if>
+            <if test="status != null">status = #{status},</if>
+        </set>
+        WHERE id = #{id}
+    </update>
+
+</mapper>

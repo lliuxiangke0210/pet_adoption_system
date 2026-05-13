@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dog.mapper.CommentMapper">
+
+    <select id="selectById" resultType="com.dog.entity.Comment">
+        SELECT c.*, u.username FROM comment c
+        LEFT JOIN user u ON c.user_id = u.id
+        WHERE c.id = #{id}
+    </select>
+
+    <select id="selectByPetId" resultType="com.dog.entity.Comment">
+        SELECT c.*, u.username FROM comment c
+        LEFT JOIN user u ON c.user_id = u.id
+        WHERE c.pet_id = #{petId}
+        ORDER BY c.create_time DESC
+    </select>
+
+    <select id="selectByNewsId" resultType="com.dog.entity.Comment">
+        SELECT c.*, u.username FROM comment c
+        LEFT JOIN user u ON c.user_id = u.id
+        WHERE c.news_id = #{newsId}
+        ORDER BY c.create_time DESC
+    </select>
+
+    <select id="selectAll" resultType="com.dog.entity.Comment">
+        SELECT c.*, u.username FROM comment c
+        LEFT JOIN user u ON c.user_id = u.id
+        ORDER BY c.create_time DESC
+        LIMIT #{offset}, #{limit}
+    </select>
+
+    <select id="countAll" resultType="long">
+        SELECT COUNT(*) FROM comment
+    </select>
+
+    <insert id="insert" parameterType="com.dog.entity.Comment" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO comment (user_id, pet_id, news_id, content)
+        VALUES (#{userId}, #{petId}, #{newsId}, #{content})
+    </insert>
+
+    <delete id="deleteById">
+        DELETE FROM comment WHERE id = #{id}
+    </delete>
+
+</mapper>

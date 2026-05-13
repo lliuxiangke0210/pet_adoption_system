@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dog.mapper.AdoptionMapper">
+
+    <select id="selectById" resultType="com.dog.entity.Adoption">
+        SELECT a.*, u.username, u.real_name, p.name AS pet_name, p.image AS pet_image, p.breed AS pet_breed
+        FROM adoption a
+        LEFT JOIN user u ON a.user_id = u.id
+        LEFT JOIN pet p ON a.pet_id = p.id
+        WHERE a.id = #{id}
+    </select>
+
+    <select id="selectList" resultType="com.dog.entity.Adoption">
+        SELECT a.*, u.username, u.real_name, p.name AS pet_name, p.image AS pet_image, p.breed AS pet_breed
+        FROM adoption a
+        LEFT JOIN user u ON a.user_id = u.id
+        LEFT JOIN pet p ON a.pet_id = p.id
+        <where>
+            <if test="keyword != null and keyword != ''">
+                AND (u.username LIKE CONCAT('%', #{keyword}, '%') OR p.name LIKE CONCAT('%', #{keyword}, '%'))
+            </if>
+            <if test="status != null and status != ''">
+                AND a.status = #{status}
+            </if>
+        </where>
+        ORDER BY a.apply_time DESC
+        LIMIT #{offset}, #{limit}
+    </select>
+
+    <select id="countList" resultType="long">
+        SELECT COUNT(*) FROM adoption a
+        LEFT JOIN user u ON a.user_id = u.id
+        LEFT JOIN pet p ON a.pet_id = p.id
+        <where>
+            <if test="keyword != null and keyword != ''">
+                AND (u.username LIKE CONCAT('%', #{keyword}, '%') OR p.name LIKE CONCAT('%', #{keyword}, '%'))
+            </if>
+            <if test="status != null and status != ''">
+                AND a.status = #{status}
+            </if>
+        </where>
+    </select>
+
+    <select id="selectByUserId" resultType="com.dog.entity.Adoption">
+        SELECT a.*, p.name AS pet_name, p.image AS pet_image, p.breed AS pet_breed
+        FROM adoption a
+        LEFT JOIN pet p ON a.pet_id = p.id
+        WHERE a.user_id = #{userId}
+        ORDER BY a.apply_time DESC
+    </select>
+
+    <insert id="insert" parameterType="com.dog.entity.Adoption" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO adoption (user_id, pet_id, reason, status) VALUES (#{userId}, #{petId}, #{reason}, #{status})
+    </insert>
+
+    <update id="update" parameterType="com.dog.entity.Adoption">
+        UPDATE adoption
+        <set>
+            <if test="status != null">status = #{status},</if>
+            <if test="approveTime != null">approve_time = #{approveTime},</if>
+        </set>
+        WHERE id = #{id}
+    </update>
+
+    <select id="countByMonth" resultType="java.util.HashMap">
+        SELECT MONTH(apply_time) AS month, COUNT(*) AS count
+        FROM adoption WHERE YEAR(apply_time) = #{year}
+        GROUP BY MONTH(apply_time) ORDER BY month
+    </select>
+
+    <select id="countPending" resultType="long">
+        SELECT COUNT(*) FROM adoption WHERE status = 'pending'
+    </select>
+
+    <select id="countTotal" resultType="long">
+        SELECT COUNT(*) FROM adoption
+    </select>
+
+</mapper>

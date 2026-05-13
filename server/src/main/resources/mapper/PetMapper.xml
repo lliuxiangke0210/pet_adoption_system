@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dog.mapper.PetMapper">
+
+    <select id="selectById" resultType="com.dog.entity.Pet">
+        SELECT p.*, c.name AS category_name
+        FROM pet p LEFT JOIN pet_category c ON p.category_id = c.id
+        WHERE p.id = #{id}
+    </select>
+
+    <select id="selectList" resultType="com.dog.entity.Pet">
+        SELECT p.*, c.name AS category_name
+        FROM pet p LEFT JOIN pet_category c ON p.category_id = c.id
+        <where>
+            <if test="keyword != null and keyword != ''">
+                AND (p.name LIKE CONCAT('%', #{keyword}, '%') OR p.breed LIKE CONCAT('%', #{keyword}, '%'))
+            </if>
+            <if test="categoryId != null">
+                AND p.category_id = #{categoryId}
+            </if>
+            <if test="status != null and status != ''">
+                AND p.status = #{status}
+            </if>
+        </where>
+        ORDER BY p.create_time DESC
+        LIMIT #{offset}, #{limit}
+    </select>
+
+    <select id="countList" resultType="long">
+        SELECT COUNT(*) FROM pet p
+        <where>
+            <if test="keyword != null and keyword != ''">
+                AND (p.name LIKE CONCAT('%', #{keyword}, '%') OR p.breed LIKE CONCAT('%', #{keyword}, '%'))
+            </if>
+            <if test="categoryId != null">
+                AND p.category_id = #{categoryId}
+            </if>
+            <if test="status != null and status != ''">
+                AND p.status = #{status}
+            </if>
+        </where>
+    </select>
+
+    <insert id="insert" parameterType="com.dog.entity.Pet" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO pet (name, category_id, breed, age, gender, color, size, description, image, status)
+        VALUES (#{name}, #{categoryId}, #{breed}, #{age}, #{gender}, #{color}, #{size}, #{description}, #{image}, #{status})
+    </insert>
+
+    <update id="update" parameterType="com.dog.entity.Pet">
+        UPDATE pet
+        <set>
+            <if test="name != null">name = #{name},</if>
+            <if test="categoryId != null">category_id = #{categoryId},</if>
+            <if test="breed != null">breed = #{breed},</if>
+            <if test="age != null">age = #{age},</if>
+            <if test="gender != null">gender = #{gender},</if>
+            <if test="color != null">color = #{color},</if>
+            <if test="size != null">size = #{size},</if>
+            <if test="description != null">description = #{description},</if>
+            <if test="image != null">image = #{image},</if>
+            <if test="status != null">status = #{status},</if>
+        </set>
+        WHERE id = #{id}
+    </update>
+
+    <delete id="deleteById">
+        DELETE FROM pet WHERE id = #{id}
+    </delete>
+
+    <select id="countByCategory" resultType="java.util.HashMap">
+        SELECT c.name AS category_name, COUNT(p.id) AS count
+        FROM pet_category c LEFT JOIN pet p ON c.id = p.category_id
+        GROUP BY c.id, c.name ORDER BY count DESC
+    </select>
+
+    <select id="countTotal" resultType="long">
+        SELECT COUNT(*) FROM pet
+    </select>
+
+</mapper>

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dog.mapper.BannerMapper">
+
+    <select id="selectById" resultType="com.dog.entity.Banner">
+        SELECT * FROM banner WHERE id = #{id}
+    </select>
+
+    <select id="selectActive" resultType="com.dog.entity.Banner">
+        SELECT * FROM banner WHERE status = 1 ORDER BY sort_order ASC
+    </select>
+
+    <select id="selectAll" resultType="com.dog.entity.Banner">
+        SELECT * FROM banner ORDER BY sort_order ASC, create_time DESC
+    </select>
+
+    <insert id="insert" parameterType="com.dog.entity.Banner" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO banner (title, image, link, sort_order, status)
+        VALUES (#{title}, #{image}, #{link}, #{sortOrder}, #{status})
+    </insert>
+
+    <update id="update" parameterType="com.dog.entity.Banner">
+        UPDATE banner
+        <set>
+            <if test="title != null">title = #{title},</if>
+            <if test="image != null">image = #{image},</if>
+            <if test="link != null">link = #{link},</if>
+            <if test="sortOrder != null">sort_order = #{sortOrder},</if>
+            <if test="status != null">status = #{status},</if>
+        </set>
+        WHERE id = #{id}
+    </update>
+
+    <delete id="deleteById">
+        DELETE FROM banner WHERE id = #{id}
+    </delete>
+
+</mapper>
