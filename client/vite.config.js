@@ -7,7 +7,7 @@ import { ElementPlusResolver } from 'unplugin-vue-components/resolvers'
 export default defineConfig(({ mode }) => {
   // 根据 mode 选择代理目标
   const proxyTarget = mode === 'production-local'
-    ? 'https://wkctqvunclym.sealosbja.site'
+    ? 'https://bltiltwlzlzz.sealosbja.site'
     : 'http://localhost:8080'
 
   return {

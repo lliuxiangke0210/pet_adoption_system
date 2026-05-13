@@ -9,13 +9,13 @@ const ENV = 'prod'
 /** 各环境后端地址 */
 const BASE_URL_MAP = {
 	dev: 'http://localhost:8080',
-	prod: 'https://wkctqvunclym.sealosbja.site'
+	prod: 'https://bltiltwlzlzz.sealosbja.site'
 }
 
 /** 当前环境的图片基础地址 */
 const IMG_BASE_MAP = {
 	dev: 'http://localhost:8080',
-	prod: 'https://wkctqvunclym.sealosbja.site'
+	prod: 'https://bltiltwlzlzz.sealosbja.site'
 }
 
 export const BASE_URL = BASE_URL_MAP[ENV]

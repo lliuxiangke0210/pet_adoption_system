@@ -5,6 +5,7 @@ set -e
 trap 'echo "Shutting down..."; kill -TERM $JAVA_PID 2>/dev/null; wait $JAVA_PID 2>/dev/null; exit 0' TERM INT
 
 echo "=== Starting Spring Boot backend ==="
+mkdir -p /app/uploads
 java -jar /app/server.jar --spring.profiles.active=prod &
 JAVA_PID=$!
 
